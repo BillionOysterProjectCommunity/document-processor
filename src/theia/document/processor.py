@@ -1,7 +1,7 @@
 from typing import List, Sequence
 
-from config import Config
-from filters import truncate, filter_nums, filter_strings
+from config.configuration import Config
+import utils.filters as filter
 
 from google.cloud import documentai_v1 as documentai
 import pandas as pd
@@ -80,13 +80,13 @@ class DocumentProcessor():
     
     def process_measurements(self, df: pd.DataFrame, columns) -> pd.DataFrame:
         
-        m = np.array([truncate(df[x].values) for x in columns["measurements"]]).flatten()
-        ld = ld = np.array([truncate(df[x].values) for x in columns["live_dead"]]).flatten()
+        m = np.array([filter.truncate(df[x].values) for x in columns["measurements"]]).flatten()
+        ld = ld = np.array([filter.truncate(df[x].values) for x in columns["live_dead"]]).flatten()
 
         df = pd.DataFrame({"measurements": m, "live/dead": ld})
 
-        df["measurements"] = df["measurements"].apply(lambda x: filter_nums(x))
-        df["live/dead"] = df["live/dead"].apply(lambda x: filter_strings(x))
+        df["measurements"] = df["measurements"].apply(lambda x: filter.filter_nums(x))
+        df["live/dead"] = df["live/dead"].apply(lambda x: filter.filter_strings(x))
 
         return df
     
