@@ -150,4 +150,3 @@ class DocumentProcessor():
         measurements = self.process_measurements(df, columns)
 
         return measurements
-    
