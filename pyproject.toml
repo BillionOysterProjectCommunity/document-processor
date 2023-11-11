@@ -11,6 +11,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 
+[tool.setuptools]
+packages = ["theia"]
+
 [project.urls]
 "Homepage" = "https://github.com/BillionOysterProjectCommunity/document-processor"
 "Bug Tracker" = "https://github.com/BillionOysterProjectCommunity/document-processor/issues"
