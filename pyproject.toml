@@ -1,0 +1,16 @@
+[project]
+name = "theia"
+version = "0.0.1"
+authors = [
+  { name="Glenn Tatum", email="example@example.com" },
+]
+description = "Document processing for the Billion Oyster Project"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/BillionOysterProjectCommunity/document-processor"
+"Bug Tracker" = "https://github.com/BillionOysterProjectCommunity/document-processor/issues"

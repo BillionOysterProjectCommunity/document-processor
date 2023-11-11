@@ -1,7 +1,7 @@
 from typing import List, Sequence
 
-from config.configuration import Config
-import utils.filters as filter
+from theia.settings.config import Config
+import theia.utils.filters as filter
 
 from google.cloud import documentai_v1 as documentai
 import pandas as pd

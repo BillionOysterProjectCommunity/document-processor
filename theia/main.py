@@ -1,5 +1,5 @@
-import config.configuration as config
-import document.processor as processor
+import theia.settings.config as config
+import theia.document.processor as processor
 
 def main():
 

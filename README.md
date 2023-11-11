@@ -8,9 +8,9 @@ The current FormParser version provided by Google Cloud is `pretrained-form-pars
 ```bash
 git clone https://github.com/BillionOysterProjectCommunity/document-processor.git
 
-virtualenv .
+cd document-processor
 
-pip install -r requirements.txt
+pip install -e ./
 ```
 
 **Authentication**
