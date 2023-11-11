@@ -10,6 +10,10 @@ git clone https://github.com/BillionOysterProjectCommunity/document-processor.gi
 
 cd document-processor
 
+virtualenv .
+
+pip install -r requirements.txt
+
 pip install -e ./
 ```
 
@@ -25,4 +29,6 @@ pip install -e ./
 location = 'us'
 processorid = 'processor-id'
 project-id = 'project-id'
+
+master-datasheet-id = '12345'
 ```
