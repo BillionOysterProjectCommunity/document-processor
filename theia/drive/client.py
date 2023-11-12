@@ -1,7 +1,9 @@
 from google.oauth2.credentials import Credentials
-from theia.settings.config import Config
 
 from googleapiclient.discovery import build
+
+from theia.settings.config import Config
+from theia.models.metadata import MetaData
 
 """
 Google drive client functions
@@ -24,6 +26,9 @@ class Client:
 
         return results
     
-    def upload_file_to_folder(self, file):
+    def process_ors_document(self, file, metadata: MetaData):
+        date = metadata.monitoring_date
+        
         pass
+        
     
