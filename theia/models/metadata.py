@@ -68,19 +68,3 @@ class MetaData:
         self.broodstock = broodstock # prompt
         self.set_date = set_date # prompt 
         self.distribution_date = distribution_date # prompt
-
-    def prompt_metadata(self):
-        self.submitted_by_name = input("(Step 1 of 14) Name: ")
-        self.submitted_by_email = input("(Step 2 of 14) Email: ")
-        self.tag_shape = int(input("(Step 3 of 14) Tag Shape (0 for circle 1 for square): "))
-        self.tag_number = int(input("(Step 4 of 14) Tag Number: "))
-        self.monitoring_date = input("(Step 5 of 14) Monitoring Data (MM/DD/YYYY): ")
-        self.primary_steward = input("(Step 6 of 14) Primary Steward Name: ")
-        self.primary_steward_email = input("(Step 7 of 14) Primary Steward Email: ")
-        self.number_of_adults_monitoring = int(input("(Step 8 of 14) Number of adults monitoring: "))
-        self.number_of_students_monitoring = int(input("(Step 9 of 14) Number of students monitoring: "))
-        self.location = input("(Step 10 of 14) Name of site: ")
-        self.organization = input("(Step 11 of 14) Affiliation of steward (e.g. Ambassador): ")
-        self.broodstock = input("(Step 12 of 14) Broodstock (e.g MB): ")
-        self.set_date = input("(Step 13 of 14) Cage set date (MM/DD/YYYY): ")
-        self.distribution_date = input("(Step 14 of 14) Cage distribution date (MM/DD/YYYY): ")
