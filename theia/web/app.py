@@ -1,5 +1,7 @@
 import os.path
 
+import pandas as pd
+
 from requests_oauthlib import OAuth2Session
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.helpers import credentials_from_session
@@ -13,6 +15,7 @@ from flask import (
     url_for
 )
 from theia.document.processor import DocumentProcessor
+from theia.models.metadata import MetaData
 from theia.drive.client import Client as Drive
 from theia.settings.config import Config
 
@@ -63,9 +66,20 @@ def callback():
 def index():
 
     if request.method == 'POST':
-        # Form submission processing for ors document and metadata
+        # TODO Add all form fields here
+        # TODO Convert form fields to FlaskForm object attributes
+        tag_type = request.form['tag_type']
+        if tag_type is "Rectangle":
+            rectangle_tag = True
+            round_tag = False
+        else:
+            rectangle_tag = False
+            round_tag = True
 
-        # Todo Configure processing of multiple files
+        monitoring_date = request.form['monitoring_date']
+        total_live_oysters = request.form['total_live_oysters']
+        # TODO Add columns O-X from Ambassador Data Entry Google Sheet
+
         file = request.files['file']
         path = os.path.abspath(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         file.save(path)
@@ -74,18 +88,40 @@ def index():
         df = document_processor.process_document(path)
         df = df.dropna() # Drop corrupted values
 
-        # Upload files to Google Drive
+        # Drive.process_ors_document(path)
 
-        google = OAuth2Session(client_id, token=session['oauth_token'])
-        cred = credentials_from_session(google)
+        metadata = MetaData()
+        broodstock = metadata.get_broodstock()
+        set_date = metadata.get_setDate()
+        distribution_date = metadata.get_distributionDate()
 
-        drive = Drive(credentials=cred, config=Config())
+        df = pd.DataFrame({
+            "Round Tag": round_tag,
+            "Rectangle Tag": rectangle_tag,
+            "Invalid": False,
+            "Data_Quality": False,
+            "Data_Sheet": "https://drive.google.com",
+            "Data_Decisions": False,
+            "Monitoring_Date": monitoring_date,
+            "Broodstock": broodstock,
+            "Set_Date": set_date,
+            "Distribution_Date": distribution_date,
+            "Clump": False,
+            "Live_Oysters_Clump": False,
+            "Total_Number_Live_Oysters": total_live_oysters,
+            # TODO Continue to add fields
+            "shell_height_mm":  df['measurements'],
+            "live/dead": df['live/dead']
+        })
+
+        # TODO Convert DataFrame into table
 
         data_processed = True
 
-        return render_template("index.html", authorized=True, df=df, data_processed = data_processed)
+        return render_template("index.html", authorized=True, df=df, data_processed=data_processed)
 
     if 'oauth_state' in session:
+
         return render_template("index.html", authorized=True)
     
     return render_template("index.html", authorized=False)

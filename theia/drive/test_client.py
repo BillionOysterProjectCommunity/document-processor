@@ -1,4 +1,5 @@
 import os.path
+from datetime import datetime
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -7,6 +8,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from theia.drive.client import Client as Drive
+from theia.models.metadata import MetaData
 from theia.settings.config import Config
 
 """
@@ -46,10 +48,20 @@ def main():
     service = Drive(credentials=creds, config=config)
 
     print(service.show_initial_files())
-
   except HttpError as error:
-    # TODO(developer) - Handle errors from drive API.
     print(f"An error occurred: {error}")
+
+  print("------------------------------\n")
+
+  path = os.path.abspath(os.path.join('training_data', 'training_7.jpg'))
+  meta = MetaData()
+  meta.monitoring_date = datetime.fromisoformat('2023-11-12')
+
+  print("------------------------------\n")
+
+  print(service.directory_id(2023, 1))
+
+  service.process_ors_document(path, meta)
 
 
 if __name__ == "__main__":

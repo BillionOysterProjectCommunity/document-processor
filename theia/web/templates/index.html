@@ -26,20 +26,40 @@
         <div>
             <div><p>Upload an ORS Measurements Sheet</p></div>
             <form method=post enctype=multipart/form-data>
-                <input type=file name=file>
-                <input type=submit value=Upload>
+                <p>Select Tag Type</p>
+
+                <label for="Rectangle">Rectangle Tag: </label>
+                <input id="Rectangle" type="radio" name="tag_type" value="Rectangle">
+                <div></div>
+                <label for="Circle">Circle Tag: </label>
+                <input id="Circle" type="radio" name="tag_type" value="Circle">
+
+                <label for="monitoring_date">Monitoring Date</label>
+                <input type="date" name="monitoring_date">
+
+                <!-- TODO Add manual entry from Ambassador Data Entry Google Sheet-->
+
+                <div>
+                    <input type=file name=file>
+                </div>
+                <div><input type=submit value=Submit></div>
             </form>
         </div>
         {% if data_processed %}
         <table>
             <tr>
+                <th>Round Tag</th>
+                <th>Rectangle Tag</th>
                 <th>Measurements</th>
                 <th>Live/Dead</th>
             </tr>
             {% for value in df.values %}
             <tr>
+                <td>False</td>
                 <td>{{ value[0] }}</td>
                 <td>{{ value[1] }}</td>
+                <td>{{ value[2] }}</td>
+                <td>{{ value[3] }}</td>
             </tr>
             {% endfor %}
         </table>

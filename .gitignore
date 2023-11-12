@@ -169,3 +169,4 @@ token.json
 
 # Document processing uploads
 theia/web/uploads/*
+theia/drive/uploads/*
