@@ -70,9 +70,7 @@ def index():
 
     form = MetadataForm()
 
-
     if form.validate_on_submit():
-        # TODO Add all form fields here
         # TODO Add columns O-X from Ambassador Data Entry Google Sheet        
 
         rectangle_tag = form.tag_type.data

@@ -71,8 +71,13 @@ class MetaData:
 
     def get_broodstock(self):
         """
-        Returns the cage broodstock from ORS sites and stewards
+        Returns the cage broodstock from ORS Sites and Stewards
         """
+        # NOTE When searching broodstock prioritize column Q to N in ORS Sites and Stewards
+        #      As column Q represents the MOST RECENT broodstock installation date.
+        #      If column Q is present return the broodstock in column Q over the data point in N.
+        #      (N = 1. Broodstock source) (Q = 2. Broodstock Source)
+
         return "WIP"
     
     def get_setDate(self):
