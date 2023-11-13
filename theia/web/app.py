@@ -6,6 +6,8 @@ from requests_oauthlib import OAuth2Session
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.helpers import credentials_from_session
 
+from markupsafe import Markup
+
 from flask import (
     Flask, 
     request, 
@@ -15,6 +17,7 @@ from flask import (
     url_for
 )
 from theia.document.processor import DocumentProcessor
+from theia.web.forms import MetadataForm
 from theia.models.metadata import MetaData
 from theia.drive.client import Client as Drive
 from theia.settings.config import Config
@@ -65,22 +68,18 @@ def callback():
 @app.route("/", methods=('GET', 'POST'))
 def index():
 
-    if request.method == 'POST':
+    form = MetadataForm()
+
+
+    if form.validate_on_submit():
         # TODO Add all form fields here
-        # TODO Convert form fields to FlaskForm object attributes
-        tag_type = request.form['tag_type']
-        if tag_type is "Rectangle":
-            rectangle_tag = True
-            round_tag = False
-        else:
-            rectangle_tag = False
-            round_tag = True
+        # TODO Add columns O-X from Ambassador Data Entry Google Sheet        
 
-        monitoring_date = request.form['monitoring_date']
-        total_live_oysters = request.form['total_live_oysters']
-        # TODO Add columns O-X from Ambassador Data Entry Google Sheet
-
-        file = request.files['file']
+        rectangle_tag = form.tag_type.data
+        round_tag = form.tag_type.data
+        monitoring_date = form.monitoring_date.data
+        total_live_oysters = form.total_live_oysters.data
+        file = form.image.data
         path = os.path.abspath(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         file.save(path)
 
@@ -114,15 +113,15 @@ def index():
             "live/dead": df['live/dead']
         })
 
-        # TODO Convert DataFrame into table
+        df = Markup(df.to_html())
 
         data_processed = True
 
-        return render_template("index.html", authorized=True, df=df, data_processed=data_processed)
+        return render_template("index.html", authorized=True, df=df, data_processed=data_processed, form=form)
 
     if 'oauth_state' in session:
 
-        return render_template("index.html", authorized=True)
+        return render_template("index.html", authorized=True, form=form)
     
     return render_template("index.html", authorized=False)
 

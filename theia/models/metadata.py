@@ -69,9 +69,15 @@ class MetaData:
         self.set_date = set_date # prompt 
         self.distribution_date = distribution_date # prompt
 
-    def get_broodstock():
+    def get_broodstock(self):
         """
         Returns the cage broodstock from ORS sites and stewards
         """
-        return ""
+        return "WIP"
+    
+    def get_setDate(self):
+        return "WIP"
+    
+    def get_distributionDate(self):
+        return "WIP"
 
