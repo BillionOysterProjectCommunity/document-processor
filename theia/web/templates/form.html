@@ -2,21 +2,27 @@
 
 {% block content %}
 
-<div>
-    <div><p>Upload an ORS Measurements Sheet</p></div>
-    <form method="post" enctype="multipart/form-data">
-        {{ form.csrf_token }}
-        <div></div>
-        {{ form.tag_type.label }} {{ form.tag_type }}
-        <div></div>
-        {{ form.monitoring_date.label }} {{ form.monitoring_date }}
-        <div></div>
-        {{ form.total_live_oysters.label }} {{ form.total_live_oysters }}
-        <div></div>
-        {{ form.image.label }} {{ form.image }}
-        <div></div>
-        <input type="submit" value="Upload">
-    </form>
-</div>
+<form class="usa-form" method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    <fieldset class="usa-fieldset">
+        <legend class="usa-legend usa-legend--large">
+            ORS Site Data Entry
+        </legend>
+
+        <label class="usa-label">Tag Shape</label>
+        {{ form.tag_type(class="usa-select")}}
+
+        <label class="usa-label">Tag Shape</label>
+        {{ form.monitoring_date }}
+
+        <label class="usa-label">Total Live Oysters</label>
+        {{ form.total_live_oysters(class="usa-input") }}
+
+        <label class="usa-label">Document Image</label>
+        {{ form.image(class="usa-file-input") }}
+
+        <input class="usa-button" type="submit" value="Upload">
+    </fieldset>
+</form>
 
 {% endblock %}

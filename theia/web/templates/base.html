@@ -7,9 +7,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uswds/3.7.1/js/uswds-init.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uswds/3.7.1/css/uswds.min.css">
 </head>
-<body>
+<body style="background-color: #FCFCFC;">
 
-    {% block content %}{% endblock %}
+<div class="grid-container mobile-lg:width-mobile-lg desktop:width-tablet-lg padding-2 shadow-5">
+    <div class="grid-row">
+        <div class="grid-col">
+            <div class="usa-overlay"></div>
+                <header class="usa-header usa-header--basic">
+                    <div class="usa-nav-container">
+                        <div class="usa-navbar">
+                            <div class="usa-logo">
+                                <em class="usa-logo__text">
+                                    Billion Oyster Project
+                                </em>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uswds/3.7.1/js/uswds.min.js"></script>
 </body>
