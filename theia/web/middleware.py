@@ -25,16 +25,11 @@ def is_valid_session():
         except ValueError:
                 False
         return True
-     
 
 def login_required(f):
     @wraps(f)
     def required(*args, **kwargs):
-        client_id = config.read('oauth-client-id')
-        try:
-                google = OAuth2Session(client_id, token=session['oauth_token'])
-                cred = credentials_from_session(google)
-        except ValueError:
-             return redirect(url_for('login'))
+        if 'oauth_state' not in session:
+            return redirect(url_for('login'))
         return f(*args, **kwargs)
     return required
