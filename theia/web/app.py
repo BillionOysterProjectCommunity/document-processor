@@ -18,6 +18,7 @@ from flask import (
 )
 from theia.document.processor import DocumentProcessor
 from theia.web.forms import MetadataForm
+from theia.web.middleware import login_required
 from theia.models.metadata import MetaData
 from theia.drive.client import Client as Drive
 from theia.settings.config import Config
@@ -67,6 +68,21 @@ def callback():
 
 @app.route("/", methods=('GET', 'POST'))
 def index():
+    # contains description of the site plus url to login page
+    if 'oauth_state' in session:
+        return redirect(url_for('dashboard'))
+
+    return render_template("index.html")
+
+@app.route("/dashboard", methods=('GET', 'POST'))
+@login_required
+def dashboard():
+    # contains logout button and url to form page
+    return render_template("dashboard.html")
+        
+@app.route("/form", methods=('GET', 'POST'))
+@login_required
+def form():
 
     form = MetadataForm()
 
@@ -113,15 +129,9 @@ def index():
 
         df = Markup(df.to_html())
 
-        data_processed = True
-
-        return render_template("index.html", authorized=True, df=df, data_processed=data_processed, form=form)
-
-    if 'oauth_state' in session:
-
-        return render_template("index.html", authorized=True, form=form)
+        return render_template("result.html", df=df)
     
-    return render_template("index.html", authorized=False)
+    return render_template("form.html", form=form)
 
 @app.route("/authorized")
 def drive():
