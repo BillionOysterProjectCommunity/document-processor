@@ -68,7 +68,6 @@ def callback():
 
 @app.route("/", methods=('GET', 'POST'))
 def index():
-    # contains description of the site plus url to login page
     if 'oauth_state' in session:
         return redirect(url_for('dashboard'))
 
@@ -77,7 +76,6 @@ def index():
 @app.route("/dashboard", methods=('GET', 'POST'))
 @login_required
 def dashboard():
-    # contains logout button and url to form page
     return render_template("dashboard.html")
         
 @app.route("/form", methods=('GET', 'POST'))
@@ -127,7 +125,7 @@ def form():
             "live/dead": df['live/dead']
         })
 
-        df = Markup(df.to_html())
+        df = df.to_csv()
 
         return render_template("result.html", df=df)
     
