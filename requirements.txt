@@ -8,3 +8,4 @@ pdfkit
 Flask-WTF
 Flask
 pyopenssl
+pyarrow

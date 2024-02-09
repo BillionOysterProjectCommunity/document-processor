@@ -30,6 +30,6 @@ def login_required(f):
     @wraps(f)
     def required(*args, **kwargs):
         if 'oauth_state' not in session:
-            return redirect(url_for('login'))
+            return redirect("/login")
         return f(*args, **kwargs)
     return required

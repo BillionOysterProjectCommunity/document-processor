@@ -1,3 +1,7 @@
+import os
+
+from theia.web.forms import MetadataForm
+
 class MetaData:
     """
     Parameters:
@@ -69,6 +73,18 @@ class MetaData:
         self.set_date = set_date # prompt 
         self.distribution_date = distribution_date # prompt
 
+    def process_form(self, form: MetadataForm, save_dir):
+
+        self.tag_shape = form.tag_type.data
+        # ...
+        broodstock = self.get_broodstock()
+        set_date = self.get_setDate()
+        distribution_date = self.get_distributionDate()
+
+
+
+
+
     def get_broodstock(self):
         """
         Returns the cage broodstock from ORS Sites and Stewards
@@ -81,6 +97,7 @@ class MetaData:
         return "WIP"
     
     def get_setDate(self):
+        
         return "WIP"
     
     def get_distributionDate(self):

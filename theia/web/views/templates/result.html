@@ -4,11 +4,11 @@
 
 <p>Thank you for your submission!</p>
 
-<a href="{{ url_for('form') }}">Back to form</a>
+<a href="{{ url_for("entry.form")}}">Back to form</a>
 
 <div id="bop_hist"></div>
 
-<div>y = frequency | x = shell height (mm)</div>
+<div class="margin-top-2 margin-bottom-2">y = frequency | x = shell height (mm)</div>
 
 
 
@@ -65,7 +65,7 @@ svg.append("g")
 var histogram = d3.histogram()
     .value(function(d) { return d.shell_height_mm; })
     .domain(x.domain())  // then the domain of the graphic
-    .thresholds(x.ticks(20)); // then the numbers of bins
+    .thresholds(x.ticks(15)); // then the numbers of bins
 
 // And apply this function to data to get the bins
 var bins = histogram(data);

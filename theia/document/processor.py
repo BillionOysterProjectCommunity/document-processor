@@ -10,8 +10,8 @@ import numpy as np
 DOCUMENT_CLIENT_CONFIG = "documentai"
 
 class DocumentProcessor():
-    def __init__(self, config: Config):
-        self.config = config
+    def __init__(self):
+        pass
 
     def text_anchor_to_text(self, text_anchor: documentai.Document.TextAnchor, text: str) -> str:
         """
@@ -139,9 +139,11 @@ class DocumentProcessor():
             file_path,
         ):
 
-        location = self.config.read('location')
-        project_id = self.config.read('project-id')
-        processor_id = self.config.read('processor-id')
+        config = Config()
+
+        location = config.read('location')
+        project_id = config.read('project-id')
+        processor_id = config.read('processor-id')
 
         document = self.online_process(file_path, project_id, processor_id, location)
         tables = self.proccess_table(document)
