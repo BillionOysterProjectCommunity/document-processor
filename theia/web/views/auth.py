@@ -66,4 +66,4 @@ def logout():
     del session['oauth_state']
     del session['oauth_token']
 
-    return redirect("/")
+    return redirect(url_for("a.index"))
