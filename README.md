@@ -10,7 +10,7 @@ git clone https://github.com/BillionOysterProjectCommunity/document-processor.gi
 
 cd document-processor
 
-virtualenv .
+python3.11 -m venv .
 
 pip install -r requirements.txt
 
@@ -27,8 +27,14 @@ pip install -e ./
 # ~/.config/billionoysterproject/document.toml
 
 location = 'us'
-processorid = 'processor-id'
-project-id = 'project-id'
+project-id = "gcp-project-name"
+processor-id = "gcp-project-id"
+# Google Drive
+master-datasheet-directory-id = "bop-master-sheet-google-drive-directory-id"
+# Web
+flask-secret-key = "supersecretkey"
+# OAuth
+oauth-client-id = "<google-oauth-client-id>.apps.googleusercontent.com"
+oauth-client-secret = "oauth-client-secret"
 
-master-datasheet-id = '12345'
 ```
