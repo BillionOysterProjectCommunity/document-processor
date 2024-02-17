@@ -7,5 +7,6 @@ pandas
 pdfkit
 Flask-WTF
 Flask
+gunicorn
 pyopenssl
 pyarrow
