@@ -1,12 +1,7 @@
 import asyncio
-
-from abc import (
-    ABCMeta,
-    abstractmethod
-)
-
 from typing import (
-    List
+    List,
+    Dict
 )
 
 import pandas as pd
@@ -49,7 +44,7 @@ class JobRunner:
 
         return t
     
-    def run_with_pipeline(self, tasks: List[Job]):
+    def run_with_pipeline(self, tasks: List[Job]) -> Dict[str, PipelineResult]:
         t = asyncio.run(self._runtasks(*tasks))
 
         table = {}
@@ -60,8 +55,19 @@ class JobRunner:
 
         return table
 
-            
+    def marshal_results(self, data: Dict[str, PipelineResult]) -> pd.DataFrame:
+        """
+        marshals a compiled table of PipeLineResults and converges the
+        DataFrames into a regular 2D DataFrame consistent of all the columns
+        from all the tables
+        """
+        flat = {}
 
-        
+        for table in data.keys():
+            for col in data[table].columns.values.tolist():
+                d = data[table][col].values.tolist()
+                flat[col] = d
 
-        
+        df = pd.DataFrame(dict([(k, pd.Series(v)) for k,v in flat.items()]))
+        # TODO Replace all NaNs in categorical value columns.
+        return df

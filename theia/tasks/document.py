@@ -5,6 +5,8 @@ from typing import Any
 from theia.tasks.job import PipelineJob, PipelineResult
 from theia.document.processor import DocumentProcessor
 
+import pandas as pd
+
 class DocumentPipeline(PipelineJob):
 
     PIPELINE_NAME = "document"
@@ -13,11 +15,20 @@ class DocumentPipeline(PipelineJob):
                 self.filepath = filepath
           
     async def run(self) -> PipelineResult:
-            document_processor = DocumentProcessor()
-            df = document_processor.process_document(self.filepath)
-            df = df.dropna() # Drop corrupted values
 
-            return PipelineResult(self.PIPELINE_NAME, df)
+        SHELL_HEIGHT_MM = "measurements"
+        LIVE_DEAD_COUNT = "live/dead"
+
+        document_processor = DocumentProcessor()
+        df = document_processor.process_document(self.filepath)
+        df = df.dropna() # Drop corrupted values
+
+        df1 = pd.DataFrame({
+                "shell_height_mm": df[SHELL_HEIGHT_MM],
+                "live_dead_count": df[LIVE_DEAD_COUNT]
+        })
+
+        return PipelineResult(self.PIPELINE_NAME, df1)
     
 def test_document_pipeline():
         

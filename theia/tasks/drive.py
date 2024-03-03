@@ -3,16 +3,19 @@ import pandas as pd
 from theia.web.forms import MetadataForm
 from theia.tasks.job import PipelineJob, PipelineResult
 
-class MeasurementPipeline(PipelineJob):
+class DrivePipeline(PipelineJob):
 
-    NAME = "cumulative_measurements"
+    NAME = "web"
 
     def __init__(self, form: MetadataForm):
         super().__init__(form)
 
     async def run(self) -> PipelineResult:
-        TOTAL_CUMULATIVE_LIVE_OYSTER = "total_number_live_oysters"
+        """
+        Uploads a drive document to the ORS Drive folder and returns
+        the URI
+        """
         df = pd.DataFrame({
-            TOTAL_CUMULATIVE_LIVE_OYSTER: self.form.total_live_oysters.data
+            "url": "drive.google.com"
         }, index=[0])
         return PipelineResult(self.NAME, df)
