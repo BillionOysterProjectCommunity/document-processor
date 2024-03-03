@@ -18,6 +18,9 @@ from theia.document.processor import DocumentProcessor
 from theia.web.forms import MetadataForm
 from theia.web.models.metadata import MetaData
 
+from theia.tasks.document import DocumentPipeline
+from theia.tasks.job import JobRunner
+
 entry = Blueprint(
     'entry', 
     __name__, 
@@ -36,7 +39,17 @@ def form():
 
 
     if form.validate_on_submit():
-        # TODO Add columns O-X from Ambassador Data Entry Google Sheet        
+        # TODO Add columns O-X from Ambassador Data Entry Google Sheet 
+
+        # TODO Completley refactor the form logic
+        # In -> form | out -> csv
+
+        """
+        utils.marshal(form) -> 
+        # utils.py
+        def marshal(form: FlaskForm, obj: any):
+            
+        """       
 
         rectangle_tag = form.tag_type.data
         round_tag = form.tag_type.data
