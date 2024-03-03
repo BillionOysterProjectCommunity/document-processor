@@ -69,5 +69,15 @@ class JobRunner:
                 flat[col] = d
 
         df = pd.DataFrame(dict([(k, pd.Series(v)) for k,v in flat.items()]))
-        # TODO Replace all NaNs in categorical value columns.
+
+        categorical = []
+
+        for k in flat.keys():
+            if len(flat[k]) == 1:
+                categorical.append(k)
+
+        for col in categorical:
+            first = df[col].iloc[0]
+            df[col].fillna(first, inplace=True)
+
         return df
