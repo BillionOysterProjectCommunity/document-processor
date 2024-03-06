@@ -5,6 +5,8 @@ from typing import Any
 from theia.tasks.job import PipelineJob, PipelineResult
 from theia.document.processor import DocumentProcessor
 
+from theia.web.utils import upload_dir
+
 import pandas as pd
 
 class DocumentPipeline(PipelineJob):
@@ -34,7 +36,7 @@ def test_document_pipeline():
         
         from theia.tasks.job import JobRunner
 
-        path = os.path.abspath(os.path.join("../web/uploads", "bbp_607_7_29_23_front.jpg"))
+        path = upload_dir("bbp_607_7_29_23_front.jpg")
 
         dp = DocumentPipeline(path)
 

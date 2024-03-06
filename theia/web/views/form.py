@@ -15,7 +15,7 @@ from flask import (
 
 from theia.web.middleware import login_required
 from theia.web.forms import MetadataForm
-from theia.web.models.metadata import MetaData
+from theia.web.utils import upload_dir
 
 from theia.tasks.document import DocumentPipeline
 from theia.tasks.cage import CagePipeline
@@ -42,7 +42,7 @@ def form():
         # TODO Add columns O-X from Ambassador Data Entry Google Sheet 
         
         file = form.image.data
-        path = os.path.abspath(os.path.join("web/uploads", file.filename))
+        path = upload_dir(file.filename)
         file.save(path)
         dp = DocumentPipeline(path)
         cage = CagePipeline(form)

@@ -6,7 +6,6 @@ def create_app():
     app = Flask(__name__)
     app.config["SETTINGS"] = Config()
     app.secret_key = app.config["SETTINGS"].read('flask-secret-key')
-    app.config['UPLOAD_FOLDER'] = 'uploads'
 
     from theia.web.views.auth import a
     from theia.web.views.dashboard import dash
