@@ -29,9 +29,9 @@ def filter_nums(x):
         return np.nan
     
 def filter_strings(x):
-   if str(x) == "L":
+   if str(x) == "L": # Live Oyster Classifier
       return x
-   if str(x) == "D":
+   if str(x) == "D": # Dead Oyster Classifier
       return x
    else:
       return np.nan
