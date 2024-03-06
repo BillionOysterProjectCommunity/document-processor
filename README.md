@@ -1,5 +1,5 @@
 # document-processor
-Automatic document processing and data submission pipeline powered by Google Cloud's DocumentAI
+Automatic document processing and data submission pipeline powered by Google Cloud's DocumentAI for the Billion Oyster Project
 
 The current FormParser version provided by Google Cloud is `pretrained-form-parser-v2.0-2022-11-10`
 
