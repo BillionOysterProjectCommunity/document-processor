@@ -14,11 +14,9 @@ import json
 Google drive client functions
 """
 
-SCOPES = ["https://www.googleapis.com/auth/drive.metadata.readonly"]
-
 class Client:
-    def __init__(self, credentials: Credentials, config: Config):
-        self.config = config
+    def __init__(self, credentials: Credentials):
+        self.config = Config()
         self.service = build("drive", "v3", credentials=credentials)
         
     def show_initial_files(self):
