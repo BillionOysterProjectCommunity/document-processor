@@ -5,7 +5,6 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
 from theia.settings.config import Config
-from theia.models.metadata import MetaData
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import pdfkit
@@ -45,7 +44,7 @@ class Client:
 
         return d[year][month]
     
-    def process_ors_document(self, path, metadata: MetaData):
+    def process_ors_document(self, path, metadata):
         date: datetime = metadata.monitoring_date
 
         env = Environment(loader=FileSystemLoader('templates'))

@@ -46,7 +46,8 @@ def form():
         file.save(path)
         dp = DocumentPipeline(path)
         cage = CagePipeline(form)
-        drive = DrivePipeline(form)
+        # Exchange oauth secret to get oauth credentials and authorize drive access
+        drive = DrivePipeline(form, session["oauth_token"])
         measurements = MeasurementPipeline(form)
 
         runner = JobRunner()

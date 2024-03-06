@@ -25,7 +25,7 @@ token_url = 'https://accounts.google.com/o/oauth2/token'
 BASE_URI = "https://127.0.0.1:8080"
 REDIRECT_URI = f"{BASE_URI}/callback"
 
-SCOPE = ["https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive.metadata.readonly"]
+SCOPE = ["https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive.metadata.readonly", "openid"]
 
 a = Blueprint(
     'a', 
