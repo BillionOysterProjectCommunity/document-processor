@@ -1,6 +1,6 @@
 from typing import List, Sequence
 
-from theia.settings.config import Config
+from theia.settings.config import config
 import theia.utils.filters as filter
 
 from google.cloud import documentai_v1 as documentai
@@ -139,11 +139,9 @@ class DocumentProcessor():
             file_path,
         ):
 
-        config = Config()
-
-        location = config.read('location')
-        project_id = config.read('project-id')
-        processor_id = config.read('processor-id')
+        location = config(key='location')
+        project_id = config(key='project-id')
+        processor_id = config(key='processor-id')
 
         document = self.online_process(file_path, project_id, processor_id, location)
         tables = self.proccess_table(document)

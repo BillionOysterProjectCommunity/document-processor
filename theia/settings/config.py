@@ -1,5 +1,15 @@
-from pathlib import PurePath, Path
+import os
 import tomllib
+
+import theia
+
+from flask import current_app
+
+def config(key: str):
+    return current_app.config["SETTINGS"].read(key)
+
+
+
 
 RELATIVE_CONFIG_PATH = "billionoysterproject/document.toml"
 
@@ -10,12 +20,8 @@ class Config:
     def __init__(self):
         self._config = self._load_config()
 
-    def _config_path(self) -> PurePath:
-        p = PurePath(
-            Path.home(),
-            Path('.config'),
-            Path(RELATIVE_CONFIG_PATH)
-        )
+    def _config_path(self):
+        p = os.path.dirname(theia.__file__)  + "/" + "config.toml"
 
         return p
 

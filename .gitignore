@@ -172,4 +172,7 @@ theia/web/uploads/*
 theia/drive/uploads/*
 
 # self signed certificates
-theia/web/cert/*
+theia/cert/*
+
+# Application Conifguration
+theia/config.toml

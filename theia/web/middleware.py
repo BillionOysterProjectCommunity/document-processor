@@ -13,12 +13,10 @@ from flask import (
     url_for
 )
 
-from theia.settings.config import Config
-
-config = Config()
+from theia.settings.config import config
 
 def is_valid_session():
-        client_id = config.read('oauth-client-id')
+        client_id = config(key='oauth-client-id')
         try:
                 google = OAuth2Session(client_id, token=session['oauth_token'])
                 cred = credentials_from_session(google)

@@ -6,7 +6,8 @@ from theia.web.forms import MetadataForm
 from theia.tasks.job import PipelineJob, PipelineResult
 
 from google.oauth2.credentials import Credentials
-from theia.web.views.auth import client_id
+
+from theia.settings.config import config
 
 class DrivePipeline(PipelineJob):
 
@@ -17,7 +18,7 @@ class DrivePipeline(PipelineJob):
         super().__init__(form)
 
     def _init_credentials(self, token):
-        c = Credentials(client_id=client_id, token=token)
+        c = Credentials(client_id=config(key="oauth-client-id"), token=token)
         return Drive(c)
 
     async def run(self) -> PipelineResult:

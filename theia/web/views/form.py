@@ -30,8 +30,6 @@ entry = Blueprint(
     template_folder="templates"
     )
 
-config = current_app
-
 @entry.route("/form", methods=('GET', 'POST'))
 @login_required
 def form():

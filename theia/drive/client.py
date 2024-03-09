@@ -4,8 +4,6 @@ from google.oauth2.credentials import Credentials
 
 from googleapiclient.discovery import build
 
-from theia.settings.config import Config
-
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import pdfkit
 import json
@@ -16,7 +14,6 @@ Google drive client functions
 
 class Client:
     def __init__(self, credentials: Credentials):
-        self.config = Config()
         self.service = build("drive", "v3", credentials=credentials)
         
     def show_initial_files(self):
