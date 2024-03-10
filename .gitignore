@@ -176,3 +176,9 @@ theia/cert/*
 
 # Application Conifguration
 theia/config.toml
+
+# pack binary
+pack
+
+# GCP IAM
+iam*

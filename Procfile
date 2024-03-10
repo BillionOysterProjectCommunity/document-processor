@@ -1,0 +1,1 @@
+web: gunicorn 'web:create_app()' --chdir theia -c theia/gunicorn.conf.py

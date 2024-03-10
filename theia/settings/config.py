@@ -8,8 +8,15 @@ from flask import current_app
 def config(key: str):
     return current_app.config["SETTINGS"].read(key)
 
-
-
+def load_service_account():
+    """
+    TODO Load service account data
+    Reads environment variable GOOGLE_APPLICATION_CREDENTIALS_DOCUMENT_AI_IAM
+    MUST be in JSON format
+    Writes ADC credentials to theia/service-account.json
+    Sets GOOGLE_APPLICATION_CREDENTIALS = {absolute_path}/theia/service-account.json
+    """
+    pass
 
 RELATIVE_CONFIG_PATH = "billionoysterproject/document.toml"
 
@@ -21,7 +28,7 @@ class Config:
         self._config = self._load_config()
 
     def _config_path(self):
-        p = os.path.dirname(theia.__file__)  + "/" + "config.toml"
+        p = os.path.dirname(theia.__file__)  
 
         return p
 
@@ -29,8 +36,15 @@ class Config:
         """
         Returns a reader to the config file object.
         """
-        with open(self._config_path(), "rb") as f:
-            return tomllib.load(f)
+
+        p = self._config_path() + "/" + "config.toml"
+
+        if os.environ["BILLION_OYSTER_CONFIG"] == None:
+            with open(p, "rb") as f:
+                return tomllib.load(f)
+        else:
+            # TODO Read BILLION_OYSTER_CONFIG as toml string and ingest all variables into config map
+            pass
 
     def set(self, key, value):
         """

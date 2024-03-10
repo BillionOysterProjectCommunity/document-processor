@@ -1,10 +1,15 @@
+import os
 from flask import Flask
 
+import theia
 from theia.settings.config import Config
 
 def create_app():
     app = Flask(__name__)
     app.config["SETTINGS"] = Config()
+    
+    iam_credentials = app.config["SETTINGS"].read('iam-file-name')
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(theia.__file__) + "/" + iam_credentials
     app.secret_key = app.config["SETTINGS"].read('flask-secret-key')
     
     if app.config["SETTINGS"].read('debug') == True:
