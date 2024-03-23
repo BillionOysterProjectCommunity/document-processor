@@ -27,6 +27,7 @@ class DocumentPipeline(PipelineJob):
 
         df1 = pd.DataFrame({
                 "shell_height_mm": df[SHELL_HEIGHT_MM],
+                "average_shell_height": df[SHELL_HEIGHT_MM].mean(),
                 "live_dead_count": df[LIVE_DEAD_COUNT]
         })
 

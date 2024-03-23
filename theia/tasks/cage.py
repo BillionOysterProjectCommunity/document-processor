@@ -11,9 +11,6 @@ class CagePipeline(PipelineJob):
 
         df = pd.DataFrame({
             "tag_type": self._tag_type(),
-            "broodstock": self._broodstock(),
-            "set_date": self._set_date(),
-            "distribution_date": self._distribution_date(),
         }, index=[0])
 
         return PipelineResult("cage", df)
@@ -26,12 +23,3 @@ class CagePipeline(PipelineJob):
             return CIRCLE
         else:
             return RECTANGLE
-
-    def _broodstock(self):
-        return 0
-
-    def _set_date(self):
-        return 0
-
-    def _distribution_date(self):
-        return 0

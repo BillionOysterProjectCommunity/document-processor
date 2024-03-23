@@ -11,7 +11,7 @@ class MeasurementPipeline(PipelineJob):
         super().__init__(form)
 
     async def run(self) -> PipelineResult:
-        TOTAL_CUMULATIVE_LIVE_OYSTER = "total_number_live_oysters"
+        TOTAL_CUMULATIVE_LIVE_OYSTER = "total_live_oysters"
         df = pd.DataFrame({
             TOTAL_CUMULATIVE_LIVE_OYSTER: self.form.total_live_oysters.data
         }, index=[0])
