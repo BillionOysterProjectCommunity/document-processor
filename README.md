@@ -40,7 +40,7 @@ processor-id = "gcp-project-id"
 master-datasheet-directory-id = "bop-master-sheet-google-drive-directory-id"
 # Web
 flask-secret-key = "supersecretkey"
-iam-file-name = "name-of-iam-service-account-document-ai-file"
+iam-file-name = "<document-processor-service-account>.json"
 # OAuth
 oauth-client-id = "<google-oauth-client-id>.apps.googleusercontent.com"
 oauth-client-secret = "oauth-client-secret"
@@ -48,6 +48,11 @@ oauth-client-secret = "oauth-client-secret"
 ```
 
 This project uses <a href="https://buildpacks.io/">Cloud Native Buildpack</a> to build images. To build an image use the <a href="https://github.com/buildpacks/pack">pack</a> CLI tool.
-```
+```bash
 pack build theia --path . --builder gcr.io/buildpacks/builder:v1
+
+# Then, run the buildpack.
+# Make sure to open 127.0.0.1 in the browser when developing locally
+
+docker run --rm -p 127.0.0.1:8080:8080 theia
 ```

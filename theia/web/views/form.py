@@ -21,6 +21,7 @@ from theia.tasks.document import DocumentPipeline
 from theia.tasks.cage import CagePipeline
 from theia.tasks.drive import DrivePipeline
 from theia.tasks.measurements import MeasurementPipeline
+from theia.tasks.metadata import MetadataPipeline
 from theia.tasks.job import JobRunner
 
 entry = Blueprint(
@@ -47,16 +48,20 @@ def form():
         # Exchange oauth access_token to authorize drive access
         drive = DrivePipeline(form, session["oauth_token"]["access_token"])
         measurements = MeasurementPipeline(form)
+        metadata = MetadataPipeline(form)
 
         runner = JobRunner()
         table = runner.run_with_pipeline([
             dp,
             cage,
             drive,
-            measurements
+            measurements,
+            metadata
         ])
 
         df = runner.marshal_results(table)
+
+        print(df)
 
         df = df.to_csv()
 

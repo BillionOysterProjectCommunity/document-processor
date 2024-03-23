@@ -20,6 +20,11 @@ def load_service_account():
 
 RELATIVE_CONFIG_PATH = "billionoysterproject/document.toml"
 
+def pkg_dir():
+    p = os.path.dirname(theia.__file__)
+
+    return p
+
 class Config:
     """
     Base configuration store.
@@ -27,19 +32,14 @@ class Config:
     def __init__(self):
         self._config = self._load_config()
 
-    def _config_path(self):
-        p = os.path.dirname(theia.__file__)  
-
-        return p
-
     def _load_config(self):
         """
         Returns a reader to the config file object.
         """
 
-        p = self._config_path() + "/" + "config.toml"
+        p = pkg_dir() + "/" + "config.toml"
 
-        if os.environ["BILLION_OYSTER_CONFIG"] == None:
+        if "BILLION_OYSTER_CONFIG" not in os.environ:
             with open(p, "rb") as f:
                 return tomllib.load(f)
         else:

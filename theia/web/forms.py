@@ -17,6 +17,7 @@ from wtforms.validators import DataRequired
 
 class MetadataForm(FlaskForm):
     tag_type = SelectField('Tag Type', choices=['Rectangle', 'Circle'])
+    tag_number = IntegerField('Tag Number')
     monitoring_date = DateField('Monitoring Date', validators=[DataRequired()], widget=DateInput())
     total_live_oysters = IntegerField('Total Live Oysters', validators=[DataRequired()])
     image = FileField('Measurement Image',validators=[FileRequired()])
