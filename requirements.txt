@@ -5,8 +5,9 @@ google-cloud-documentai
 numpy
 pandas
 pdfkit
-Flask-WTF
 Flask
+Flask-SQLAlchemy
+Flask-WTF
 gunicorn
 pyopenssl
 pyarrow

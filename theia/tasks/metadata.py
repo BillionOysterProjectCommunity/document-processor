@@ -53,9 +53,9 @@ def broodstock(tag_number):
       if type(b) == str: # return the most recent broostock install (not NaN)
         return [b, d]
     # No broodstock identifiers found, return None
-    return None
+    return [None, None]
 
   # cage id not present in database
   except (KeyError):
-    return None
+    return [None , None]
 
