@@ -1,7 +1,5 @@
 from flask import (
-    Flask, 
     Blueprint,
-    current_app,
     request, 
     redirect, 
     render_template,
@@ -9,13 +7,21 @@ from flask import (
     url_for
 )
 
+import json
+
+from theia.web.views.admin import whitelist
+
 from theia.settings.config import config
 
 from requests_oauthlib import OAuth2Session
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.helpers import credentials_from_session
 
-SCOPE = ["https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive.metadata.readonly", "openid"]
+SCOPE = [
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.email", 
+    "https://www.googleapis.com/auth/userinfo.profile"
+]
 
 a = Blueprint(
     'a', 

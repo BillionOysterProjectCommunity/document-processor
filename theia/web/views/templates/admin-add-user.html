@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Admin Dashboard</h2>
+
+<form class="usa-form" method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+
+    <fieldset class="usa-fieldset">
+
+        <label class="usa-label">Email</label>
+        {{ form.email(class="usa-input")}}
+
+        <label class="usa-label">Roles</label>
+        {{ form.roles(class="usa-select")}} 
+
+        <input class="usa-button" type="submit" value="Add">
+    </fieldset>
+</form>
+<div></div>
+
+{% endblock %}

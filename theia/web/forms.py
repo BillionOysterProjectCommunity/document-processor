@@ -5,6 +5,7 @@ from flask_wtf.file import (
 )  
 from wtforms.fields import (
     SelectField,
+    SelectMultipleField,
     DateField,
     IntegerField,
     StringField
@@ -29,3 +30,9 @@ class MetadataForm(FlaskForm):
     # NOTE: enctype="multipart/form-data" on <form></form> for the .data property to be present on
     #       the file.
 
+class AddUserForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired()])
+    roles = SelectMultipleField('Roles', choices=['admin', 'user'])
+
+class DeleteUserForm(FlaskForm):
+    email = StringField('Email')

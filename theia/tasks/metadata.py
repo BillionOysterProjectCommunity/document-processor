@@ -45,21 +45,16 @@ def broodstock(tag_number):
   df = pd.read_csv(p)
 
   # attempt to extract cage id
+
   try:
     df = df[df['tag_number'] == tag_number]
 
-    # TODO: column based time-series data forces the user to iterate
-    # in a list-like manner. Fix all install dates categories by using a time-series datastore
     installation = ['d', 'c', 'b', 'a']
     for i in range(len(installation)):
       b = df[f'broodstock_{installation[i]}'].values[0]
       d = df[f'distribution_{installation[i]}'].values[0]
       if type(b) == str: # return the most recent broostock install (not NaN)
         return [b, d]
-    # No broodstock identifiers found, return None
-    return [None, None]
-
-  # cage id not present in database
-  except (KeyError):
-    return [None , None]
+  except IndexError: # No suitable broodstock found
+    return ["None", "None"]
 

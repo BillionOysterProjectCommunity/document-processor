@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Admin Dashboard</h2>
+
+Proceed with deleting <a href="{{ user_email }}">{{ user_email }}</a>?
+
+<form class="usa-form" method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+
+    <fieldset class="usa-fieldset">
+        <input class="usa-button" type="submit" value="Delete">
+    </fieldset>
+</form>
+
+<div></div>
+
+{% endblock %}

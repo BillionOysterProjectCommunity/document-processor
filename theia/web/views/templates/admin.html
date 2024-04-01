@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Admin Dashboard</h2>
+
+<strong>Current Users: </strong>
+
+{% for user in users %}
+<p>{{ user['email'] }} <span><a href="{{ url_for("admin.delete_user", user_email=user['email']) }}">(delete)</a></span></p>
+{% endfor %}
+
+
+
+<hr>
+
+<a href="{{ url_for("admin.add_user")}}">
+    <button type="button" class="usa-button">Add a User</button>
+</a>
+
+<div></div>
+
+{% endblock %}
