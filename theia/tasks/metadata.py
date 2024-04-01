@@ -22,6 +22,7 @@ class MetadataPipeline(PipelineJob):
         DISTRIBUTION_DATE = "distribution date"
         TAG_NUMBER = "tag number"
         MONITORING_DATE = "monitoring date"
+        ORGANIZATION = "organization"
 
         b = broodstock(str(self.form.tag_number.data))
 
@@ -30,7 +31,8 @@ class MetadataPipeline(PipelineJob):
             DISTRIBUTION_DATE: b[1],
             SET_DATE: b[1],
             TAG_NUMBER: self.form.tag_number.data,
-            MONITORING_DATE: self.form.monitoring_date.data
+            MONITORING_DATE: self.form.monitoring_date.data,
+            ORGANIZATION: self.form.organization.data
         }, index=[0])
 
         return PipelineResult(self.NAME, df)

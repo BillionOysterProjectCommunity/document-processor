@@ -6,7 +6,8 @@ from flask_wtf.file import (
 from wtforms.fields import (
     SelectField,
     DateField,
-    IntegerField
+    IntegerField,
+    StringField
 )
 
 from wtforms.widgets.core import DateInput
@@ -16,6 +17,7 @@ from wtforms.validators import DataRequired
 # NOTE: field data is accessed through form.field.data
 
 class MetadataForm(FlaskForm):
+    organization = StringField('Organization', validators=[DataRequired()])
     tag_type = SelectField('Tag Type', choices=['Rectangle', 'Circle'])
     tag_number = IntegerField('Tag Number')
     monitoring_date = DateField('Monitoring Date', validators=[DataRequired()], widget=DateInput())

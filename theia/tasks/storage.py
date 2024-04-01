@@ -19,12 +19,13 @@ class StoragePipeline(PipelineJob):
 
         bucket = self.client.bucket(self.GCP_BUCKET_NAME)
         filename = self.form.image.data.filename
-        blob = bucket.blob(filename)
+        uri = filename + "-" + str(self.form.monitoring_date.data.isoformat())
+        blob = bucket.blob(uri)
 
         blob.upload_from_filename(upload_dir(filename))
 
         df = pd.DataFrame({
-            "url": self.GCP_BUCKET_URI + filename,
+            "url": self.GCP_BUCKET_URI + uri,
         }, index=[0])
 
         return PipelineResult("storage", df)
