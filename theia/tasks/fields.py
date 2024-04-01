@@ -7,6 +7,8 @@ TAG_NUMBER = "tag number"
 MONITORING_DATE = "monitoring date"
 ORGANIZATION = "organization"
 LOCATION = "location"
+STEWARD_NAME = "steward_name"
+STEWARD_EMAIL = "steward_email"
 
 # Storage
 

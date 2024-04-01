@@ -7,7 +7,9 @@ from theia.tasks.fields import (
   TAG_NUMBER,
   MONITORING_DATE,
   ORGANIZATION,
-  LOCATION
+  LOCATION,
+  STEWARD_EMAIL,
+  STEWARD_NAME
 )
 
 from theia.web.forms import MetadataForm
@@ -31,7 +33,9 @@ class MetadataPipeline(PipelineJob):
             TAG_NUMBER: self.form.tag_number.data,
             MONITORING_DATE: self.form.monitoring_date.data,
             ORGANIZATION: self.form.organization.data,
-            LOCATION: self.form.location.data
+            LOCATION: self.form.location.data,
+            STEWARD_NAME: self.form.steward_name.data,
+            STEWARD_EMAIL: self.form.steward_email.data
         }, index=[0])
 
         return PipelineResult(self.NAME, df)

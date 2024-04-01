@@ -18,6 +18,8 @@ from wtforms.validators import DataRequired
 
 class MetadataForm(FlaskForm):
     organization = StringField('Organization', validators=[DataRequired()])
+    steward_name = StringField('Steward Name', validators=[DataRequired()])
+    steward_email = StringField('Steward Email', validators=[DataRequired()])
     location = SelectField('Location')
     tag_type = SelectField('Tag Type', choices=['Rectangle', 'Circle'])
     tag_number = IntegerField('Tag Number')
