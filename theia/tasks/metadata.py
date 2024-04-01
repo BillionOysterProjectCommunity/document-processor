@@ -1,5 +1,15 @@
 import pandas as pd
 
+from theia.tasks.fields import (
+  BROODSTOCK,
+  SET_DATE,
+  DISTRIBUTION_DATE,
+  TAG_NUMBER,
+  MONITORING_DATE,
+  ORGANIZATION,
+  LOCATION
+)
+
 from theia.web.forms import MetadataForm
 from theia.tasks.job import PipelineJob, PipelineResult
 from theia.settings.config import pkg_dir
@@ -12,19 +22,6 @@ class MetadataPipeline(PipelineJob):
         super().__init__(form)
 
     async def run(self) -> PipelineResult:
-        # TOTAL_CUMULATIVE_LIVE_OYSTER = "total_number_live_oysters"
-        # df = pd.DataFrame({
-        #     TOTAL_CUMULATIVE_LIVE_OYSTER: self.form.total_live_oysters.data
-        # }, index=[0])
-
-        BROODSTOCK = "broodstock"
-        SET_DATE = "set date"
-        DISTRIBUTION_DATE = "distribution date"
-        TAG_NUMBER = "tag number"
-        MONITORING_DATE = "monitoring date"
-        ORGANIZATION = "organization"
-        LOCATION = "location"
-
         b = broodstock(str(self.form.tag_number.data))
 
         df = pd.DataFrame({
@@ -53,7 +50,6 @@ def broodstock(tag_number):
     for i in range(len(installation)):
       b = df[f'broodstock_{installation[i]}'].values[0]
       d = df[f'distribution_{installation[i]}'].values[0]
-      print("BROODSTOCK DATA      ", b, d)
       if type(b) == str: # return the most recent broostock install (not NaN)
         return [b, d]
     # No broodstock identifiers found, return None

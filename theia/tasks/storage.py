@@ -3,6 +3,9 @@ import pandas as pd
 from theia.web.forms import MetadataForm
 from theia.web.utils import upload_dir
 from theia.tasks.job import PipelineJob, PipelineResult
+from theia.tasks.fields import (
+    URL
+)
 
 from google.cloud import storage
 
@@ -25,7 +28,7 @@ class StoragePipeline(PipelineJob):
         blob.upload_from_filename(upload_dir(filename))
 
         df = pd.DataFrame({
-            "url": self.GCP_BUCKET_URI + uri,
+            URL: self.GCP_BUCKET_URI + uri,
         }, index=[0])
 
         return PipelineResult("storage", df)

@@ -5,19 +5,20 @@ from typing import Any
 from theia.tasks.job import PipelineJob, PipelineResult
 from theia.document.processor import DocumentProcessor
 
-from theia.web.utils import upload_dir
+from theia.tasks.fields import (
+        SHELL_HEIGHT_MM,
+        LIVE_DEAD_COUNT,
+        LIVE_GEQ_15MM,
+        LIVE_LE_15MM,
+        DEAD_GEQ_15MM,
+        DEAD_LE_15MM
+)
 
 import pandas as pd
 
 class DocumentPipeline(PipelineJob):
 
     PIPELINE_NAME = "document"
-    SHELL_HEIGHT_MM = "measurements"
-    LIVE_DEAD_COUNT = "live/dead"
-    LIVE_GEQ_15MM = "total # of live oysters greater than or equal to 15mm:"
-    LIVE_LE_15MM = "Total LIVE oysters LESS than 15 mm"
-    DEAD_GEQ_15MM = "Total DEAD oysters greater than or equal to 15mm:"
-    DEAD_LE_15MM = "Total DEAD oysters LESS than 15 mm"
 
 
     def __init__(self, filepath: Any | None):
@@ -30,19 +31,19 @@ class DocumentPipeline(PipelineJob):
         df = df.dropna() # Drop corrupted values
 
         df1 = pd.DataFrame({
-                "shell_height_mm": df[self.SHELL_HEIGHT_MM],
-                "average_shell_height": df[self.SHELL_HEIGHT_MM].mean(),
-                "live_dead_count": df[self.LIVE_DEAD_COUNT],
+                "shell_height_mm": df[SHELL_HEIGHT_MM],
+                "average_shell_height": df[SHELL_HEIGHT_MM].mean(),
+                "live_dead_count": df[LIVE_DEAD_COUNT],
         })
 
         df2 = pd.DataFrame({
                 "shell_height_mm": df1["shell_height_mm"],
                 "average_shell_height": df1["average_shell_height"],
                 "live_dead_count": df1["live_dead_count"],
-                self.LIVE_GEQ_15MM: total_live_geq_15mm(df1),
-                self.LIVE_LE_15MM: total_live_le_15mm(df1),
-                self.DEAD_GEQ_15MM: total_dead_geq_15mm(df1),
-                self.DEAD_LE_15MM: total_dead_le_15mm(df1)
+                LIVE_GEQ_15MM: total_live_geq_15mm(df1),
+                LIVE_LE_15MM: total_live_le_15mm(df1),
+                DEAD_GEQ_15MM: total_dead_geq_15mm(df1),
+                DEAD_LE_15MM: total_dead_le_15mm(df1)
         })      
 
         # df1.to_csv('measurements.csv')

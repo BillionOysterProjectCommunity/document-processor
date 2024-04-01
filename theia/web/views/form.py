@@ -35,15 +35,12 @@ def form():
     form.location.choices = list(locations["Site"])
 
     if form.validate_on_submit():
-        # TODO Add columns O-X from Ambassador Data Entry Google Sheet 
         
         file = form.image.data
         path = upload_dir(file.filename)
         file.save(path)
         dp = DocumentPipeline(path)
         cage = CagePipeline(form)
-        # Exchange oauth access_token to authorize drive access
-        drive = DrivePipeline(form, session["oauth_token"]["access_token"])
         measurements = MeasurementPipeline(form)
         metadata = MetadataPipeline(form)
         st = StoragePipeline(form)
@@ -52,7 +49,6 @@ def form():
         table = runner.run_with_pipeline([
             dp,
             cage,
-            drive,
             measurements,
             metadata,
             st
