@@ -143,6 +143,7 @@ class DocumentProcessor():
         project_id = config(key='project-id')
         processor_id = config(key='processor-id')
 
+        # NOTE: DocumentProcessor depends on a file path currently on 119
         document = self.online_process(file_path, project_id, processor_id, location)
         tables = self.proccess_table(document)
         df = tables[0] # The 0th table is the front page of a standard ORS document

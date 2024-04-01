@@ -9,6 +9,8 @@ def create_app():
     app.config["SETTINGS"] = Config()
     
     iam_credentials = app.config["SETTINGS"].read('iam-file-name')
+    # TODO Load application credentials from either file or github secrets variable
+    # Must be in JSON format
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(theia.__file__) + "/" + iam_credentials
     app.secret_key = app.config["SETTINGS"].read('flask-secret-key')
     

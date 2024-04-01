@@ -1,16 +1,7 @@
-import os
-
-import pandas as pd
-
 from flask import (
-    Flask, 
     Blueprint,
-    current_app,
-    request, 
-    redirect, 
     render_template,
     session, 
-    url_for
 )
 
 from theia.web.middleware import login_required
@@ -18,6 +9,7 @@ from theia.web.forms import MetadataForm
 from theia.web.utils import upload_dir
 
 from theia.tasks.document import DocumentPipeline
+from theia.tasks.storage import StoragePipeline
 from theia.tasks.cage import CagePipeline
 from theia.tasks.drive import DrivePipeline
 from theia.tasks.measurements import MeasurementPipeline
@@ -49,6 +41,7 @@ def form():
         drive = DrivePipeline(form, session["oauth_token"]["access_token"])
         measurements = MeasurementPipeline(form)
         metadata = MetadataPipeline(form)
+        st = StoragePipeline(form)
 
         runner = JobRunner()
         table = runner.run_with_pipeline([
@@ -56,13 +49,15 @@ def form():
             cage,
             drive,
             measurements,
-            metadata
+            metadata,
+            st
         ])
 
         df = runner.marshal_results(table)
 
         print(df)
 
+        # Convert to a csv-like string form downloading on the client side as a csv file
         df = df.to_csv()
 
         return render_template("result.html", df=df)
