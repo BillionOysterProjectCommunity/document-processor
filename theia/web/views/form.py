@@ -4,9 +4,11 @@ from flask import (
     session, 
 )
 
+import pandas as pd
+
 from theia.web.middleware import login_required
 from theia.web.forms import MetadataForm
-from theia.web.utils import upload_dir
+from theia.web.utils import upload_dir, package_dir
 
 from theia.tasks.document import DocumentPipeline
 from theia.tasks.storage import StoragePipeline
@@ -28,6 +30,9 @@ entry = Blueprint(
 def form():
 
     form = MetadataForm()
+    location_csv = package_dir() + "web/" + "views/" + "location.csv"
+    locations = pd.read_csv(location_csv)
+    form.location.choices = list(locations["Site"])
 
     if form.validate_on_submit():
         # TODO Add columns O-X from Ambassador Data Entry Google Sheet 
