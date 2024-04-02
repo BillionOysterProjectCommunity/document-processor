@@ -41,6 +41,7 @@ def manage():
 
 @admin.route("/delete/user/<string:user_email>", methods=('GET', 'POST'))
 @login_required
+@admin_required
 def delete_user(user_email: str):
 
     form = DeleteUserForm()
@@ -60,6 +61,7 @@ def delete_user(user_email: str):
 
 @admin.route("/add/user", methods=('GET', 'POST'))
 @login_required
+@admin_required
 def add_user():
 
     form = AddUserForm()
