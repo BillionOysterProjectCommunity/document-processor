@@ -45,6 +45,8 @@ iam-file-name = "<document-processor-service-account>.json"
 oauth-client-id = "<google-oauth-client-id>.apps.googleusercontent.com"
 oauth-client-secret = "oauth-client-secret"
 
+debug = false/true
+
 ```
 
 This project uses <a href="https://buildpacks.io/">Cloud Native Buildpack</a> to build images. To build an image use the <a href="https://github.com/buildpacks/pack">pack</a> CLI tool.
