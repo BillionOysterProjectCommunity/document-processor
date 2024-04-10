@@ -9,9 +9,10 @@ from flask import (
 
 import json
 
-from theia.web.views.admin import whitelist
-
 from theia.settings.config import config
+
+from google.cloud import firestore
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 from requests_oauthlib import OAuth2Session
 from google.oauth2.credentials import Credentials
@@ -48,6 +49,8 @@ def login():
 @a.route("/callback")
 def callback():
 
+    db = firestore.Client()
+
     client_id = config(key='oauth-client-id')
     client_secret = config(key='oauth-client-secret')
     token_url = 'https://accounts.google.com/o/oauth2/token'
@@ -55,20 +58,34 @@ def callback():
     google = OAuth2Session(client_id, state=request.args.get('state'), redirect_uri=config('redirect-uri'))
     token = google.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
 
+    r = google.get("https://www.googleapis.com/oauth2/v1/userinfo")
+    info = json.loads(r.content)
+
+    try:
+        user_ref = db.collection("users")
+        user = list(user_ref.where(filter=FieldFilter("email", "==", info['email'])).stream())[0].to_dict()
+        session['user'] = user
+    except IndexError:
+        return redirect(url_for("dash.dashboard"))
+    
     session['oauth_token'] = token
 
     return redirect(url_for("dash.dashboard"))
 
 @a.route("/", methods=('GET', 'POST'))
 def index():
-    if 'oauth_state' in session:
+    if 'user' in session:
         return redirect(url_for('dash.dashboard'))
 
     return render_template("index.html")
 
 @a.route("/logout")
 def logout():
-    del session['oauth_state']
-    del session['oauth_token']
+    try:
+        del session['oauth_state']
+        del session['oauth_token']
+        del session['user']
+    except KeyError:
+        return redirect(url_for("a.index"))
 
     return redirect(url_for("a.index"))

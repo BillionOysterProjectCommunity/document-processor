@@ -14,10 +14,6 @@ from theia.web.forms import (
 )
 from theia.web.middleware import login_required, admin_required
 
-def whitelist(google):
-    # check if r.content contains an email present within the firestore database
-    return True
-
 admin = Blueprint(
     'admin', 
     __name__, 
