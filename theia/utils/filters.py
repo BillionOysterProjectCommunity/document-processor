@@ -2,6 +2,7 @@ from typing import List
 
 import numpy as np
 
+
 def check_digit(v: str):
 
     n = []
@@ -17,6 +18,7 @@ def check_digit(v: str):
 
     return i
 
+
 def filter_nums(x):
     try:
         x = int(x)
@@ -27,15 +29,17 @@ def filter_nums(x):
         return x
     else:
         return np.nan
-    
+
+
 def filter_strings(x):
-   if str(x) == "L": # Live Oyster Classifier
-      return x
-   if str(x) == "D": # Dead Oyster Classifier
-      return x
-   else:
-      return np.nan
-   
+    if str(x) == "L":  # Live Oyster Classifier
+        return x
+    if str(x) == "D":  # Dead Oyster Classifier
+        return x
+    else:
+        return np.nan
+
+
 def truncate(v: np.array) -> List:
     """
     Returns an array of 1 dimensional elements

@@ -1,7 +1,7 @@
 from flask import (
     Blueprint,
     render_template,
-    session, 
+    session,
 )
 
 import pandas as pd
@@ -18,14 +18,10 @@ from theia.tasks.measurements import MeasurementPipeline
 from theia.tasks.metadata import MetadataPipeline
 from theia.tasks.job import JobRunner
 
-entry = Blueprint(
-    'entry', 
-    __name__, 
-    url_prefix='/f',
-    template_folder="templates"
-    )
+entry = Blueprint("entry", __name__, url_prefix="/f", template_folder="templates")
 
-@entry.route("/form", methods=('GET', 'POST'))
+
+@entry.route("/form", methods=("GET", "POST"))
 @login_required
 def form():
 
@@ -35,7 +31,7 @@ def form():
     form.location.choices = list(locations["Site"])
 
     if form.validate_on_submit():
-        
+
         file = form.image.data
         path = upload_dir(file.filename)
         file.save(path)
@@ -46,13 +42,7 @@ def form():
         st = StoragePipeline(form)
 
         runner = JobRunner()
-        table = runner.run_with_pipeline([
-            dp,
-            cage,
-            measurements,
-            metadata,
-            st
-        ])
+        table = runner.run_with_pipeline([dp, cage, measurements, metadata, st])
 
         df = runner.marshal_results(table)
 
@@ -62,5 +52,5 @@ def form():
         df = df.to_csv()
 
         return render_template("result.html", df=df)
-    
+
     return render_template("form.html", form=form)

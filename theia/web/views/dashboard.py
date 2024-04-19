@@ -1,24 +1,20 @@
 from flask import (
-    Flask, 
+    Flask,
     Blueprint,
     current_app,
-    request, 
-    redirect, 
+    request,
+    redirect,
     render_template,
-    session, 
-    url_for
+    session,
+    url_for,
 )
 
 from theia.web.middleware import login_required
 
-dash = Blueprint(
-    'dash', 
-    __name__, 
-    url_prefix='/d',
-    template_folder="templates"
-    )
+dash = Blueprint("dash", __name__, url_prefix="/d", template_folder="templates")
 
-@dash.route("/dashboard", methods=('GET', 'POST'))
+
+@dash.route("/dashboard", methods=("GET", "POST"))
 @login_required
 def dashboard():
     return render_template("dashboard.html")

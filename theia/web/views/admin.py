@@ -1,27 +1,15 @@
-from flask import (
-    Blueprint,
-    render_template,
-    redirect,
-    url_for
-)
+from flask import Blueprint, render_template, redirect, url_for
 
 from google.cloud import firestore
 from google.cloud.firestore_v1.base_query import FieldFilter
 
-from theia.web.forms import (
-    AddUserForm,
-    DeleteUserForm
-)
+from theia.web.forms import AddUserForm, DeleteUserForm
 from theia.web.middleware import login_required, admin_required
 
-admin = Blueprint(
-    'admin', 
-    __name__, 
-    url_prefix='/admin',
-    template_folder="templates"
-    )
+admin = Blueprint("admin", __name__, url_prefix="/admin", template_folder="templates")
 
-@admin.route("/manage", methods=('GET', 'POST'))
+
+@admin.route("/manage", methods=("GET", "POST"))
 @login_required
 @admin_required
 def manage():
@@ -35,7 +23,8 @@ def manage():
 
     return render_template("admin.html", users=users)
 
-@admin.route("/delete/user/<string:user_email>", methods=('GET', 'POST'))
+
+@admin.route("/delete/user/<string:user_email>", methods=("GET", "POST"))
 @login_required
 @admin_required
 def delete_user(user_email: str):
@@ -44,7 +33,9 @@ def delete_user(user_email: str):
     if form.validate_on_submit():
         db = firestore.Client()
         user_ref = db.collection("users")
-        docs = list(user_ref.where(filter=FieldFilter("email", "==", user_email)).stream())
+        docs = list(
+            user_ref.where(filter=FieldFilter("email", "==", user_email)).stream()
+        )
         try:
             user_id = docs[0].id
             user_ref.document(user_id).delete()
@@ -52,10 +43,11 @@ def delete_user(user_email: str):
             return redirect(url_for("admin.manage"))
         except IndexError:
             return redirect(url_for("admin.manage"))
-    
+
     return render_template("admin-delete-user.html", user_email=user_email, form=form)
 
-@admin.route("/add/user", methods=('GET', 'POST'))
+
+@admin.route("/add/user", methods=("GET", "POST"))
 @login_required
 @admin_required
 def add_user():
@@ -64,10 +56,7 @@ def add_user():
     if form.validate_on_submit():
         db = firestore.Client()
         user_ref = db.collection("users")
-        user_ref.add({
-            "email": form.email.data,
-            "roles": form.roles.data
-        })
+        user_ref.add({"email": form.email.data, "roles": form.roles.data})
         return redirect(url_for("admin.manage"))
 
     return render_template("admin-add-user.html", form=form)

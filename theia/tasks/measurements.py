@@ -2,9 +2,8 @@ import pandas as pd
 
 from theia.web.forms import MetadataForm
 from theia.tasks.job import PipelineJob, PipelineResult
-from theia.tasks.fields import (
-    TOTAL_CUMULATIVE_LIVE_OYSTER
-)
+from theia.tasks.fields import TOTAL_CUMULATIVE_LIVE_OYSTER
+
 
 class MeasurementPipeline(PipelineJob):
 
@@ -14,7 +13,7 @@ class MeasurementPipeline(PipelineJob):
         super().__init__(form)
 
     async def run(self) -> PipelineResult:
-        df = pd.DataFrame({
-            TOTAL_CUMULATIVE_LIVE_OYSTER: self.form.total_live_oysters.data
-        }, index=[0])
+        df = pd.DataFrame(
+            {TOTAL_CUMULATIVE_LIVE_OYSTER: self.form.total_live_oysters.data}, index=[0]
+        )
         return PipelineResult(self.NAME, df)

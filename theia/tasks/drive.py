@@ -9,6 +9,7 @@ from google.oauth2.credentials import Credentials
 
 from theia.settings.config import config
 
+
 class DrivePipeline(PipelineJob):
 
     NAME = "web"
@@ -27,7 +28,5 @@ class DrivePipeline(PipelineJob):
         the URI
         """
 
-        df = pd.DataFrame({
-            "url": "drive.google.com"
-        }, index=[0])
+        df = pd.DataFrame({"url": "drive.google.com"}, index=[0])
         return PipelineResult(self.NAME, df)

@@ -3,9 +3,8 @@ import pandas as pd
 from theia.web.forms import MetadataForm
 from theia.tasks.job import PipelineJob, PipelineResult
 
-from theia.tasks.fields import (
-    TAG_TYPE
-)
+from theia.tasks.fields import TAG_TYPE
+
 
 class CagePipeline(PipelineJob):
     def __init__(self, form: MetadataForm):
@@ -13,9 +12,12 @@ class CagePipeline(PipelineJob):
 
     async def run(self) -> PipelineResult:
 
-        df = pd.DataFrame({
-            TAG_TYPE: self._tag_type(),
-        }, index=[0])
+        df = pd.DataFrame(
+            {
+                TAG_TYPE: self._tag_type(),
+            },
+            index=[0],
+        )
 
         return PipelineResult("cage", df)
 

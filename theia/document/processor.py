@@ -9,11 +9,14 @@ import numpy as np
 
 DOCUMENT_CLIENT_CONFIG = "documentai"
 
-class DocumentProcessor():
+
+class DocumentProcessor:
     def __init__(self):
         pass
 
-    def text_anchor_to_text(self, text_anchor: documentai.Document.TextAnchor, text: str) -> str:
+    def text_anchor_to_text(
+        self, text_anchor: documentai.Document.TextAnchor, text: str
+    ) -> str:
         """
         Document AI identifies table data by their offsets in the entirety of the
         document's text. This function converts offsets to a string.
@@ -42,7 +45,7 @@ class DocumentProcessor():
                 )
             all_values.append(current_row_values)
         return all_values
-    
+
     def proccess_table(self, document: documentai.Document) -> List[pd.DataFrame]:
 
         tables = []
@@ -52,7 +55,9 @@ class DocumentProcessor():
 
         for page in document.pages:
             for index, table in enumerate(page.tables):
-                header_row_values = self.get_table_data(table.header_rows, document.text)
+                header_row_values = self.get_table_data(
+                    table.header_rows, document.text
+                )
                 body_row_values = self.get_table_data(table.body_rows, document.text)
 
                 # Create a Pandas Dataframe to print the values in tabular format.
@@ -60,28 +65,32 @@ class DocumentProcessor():
                     data=body_row_values,
                     columns=pd.MultiIndex.from_arrays(header_row_values),
                 )
-                
+
                 tables.append(df)
 
         return tables
-    
+
     def process_columns(self, table: pd.DataFrame):
-    
+
         columns = {"measurements": [], "live_dead": []}
-        
+
         for column in table.columns:
-            if column[0] != '':
+            if column[0] != "":
                 if "MEASUREMENT" in column[0]:
                     columns["measurements"].append(column)
                 if "Live" in column[0] or "Dead" in column[0]:
                     columns["live_dead"].append(column)
 
         return columns
-    
+
     def process_measurements(self, df: pd.DataFrame, columns) -> pd.DataFrame:
-        
-        m = np.array([filter.truncate(df[x].values) for x in columns["measurements"]]).flatten()
-        ld = ld = np.array([filter.truncate(df[x].values) for x in columns["live_dead"]]).flatten()
+
+        m = np.array(
+            [filter.truncate(df[x].values) for x in columns["measurements"]]
+        ).flatten()
+        ld = ld = np.array(
+            [filter.truncate(df[x].values) for x in columns["live_dead"]]
+        ).flatten()
 
         df = pd.DataFrame({"measurements": m, "live/dead": ld})
 
@@ -89,14 +98,14 @@ class DocumentProcessor():
         df["live/dead"] = df["live/dead"].apply(lambda x: filter.filter_strings(x))
 
         return df
-    
+
     def online_process(
-            self, 
-            file_path,
-            project_id,
-            processor_id,
-            location,
-        ) -> documentai.Document:
+        self,
+        file_path,
+        project_id,
+        processor_id,
+        location,
+    ) -> documentai.Document:
         """
         Processes a document using the Document AI Online Processing API.
         """
@@ -104,16 +113,20 @@ class DocumentProcessor():
         # for supported file types
 
         mime_type = "image/jpeg"
-        
+
         opts = {"api_endpoint": f"{location}-documentai.googleapis.com"}
 
         # Instantiates a client
-        documentai_client = documentai.DocumentProcessorServiceClient(client_options=opts)
+        documentai_client = documentai.DocumentProcessorServiceClient(
+            client_options=opts
+        )
 
         # The full resource name of the processor, e.g.:
         # projects/project-id/locations/location/processor/processor-id
         # You must create new processors in the Cloud Console first
-        resource_name = documentai_client.processor_path(project_id, location, processor_id)
+        resource_name = documentai_client.processor_path(
+            project_id, location, processor_id
+        )
 
         # Read the file into memory
         with open(file_path, "rb") as image:
@@ -133,20 +146,20 @@ class DocumentProcessor():
             result = documentai_client.process_document(request=request)
 
             return result.document
-        
-    def process_document(
-            self, 
-            file_path,
-        ):
 
-        location = config(key='location')
-        project_id = config(key='project-id')
-        processor_id = config(key='processor-id')
+    def process_document(
+        self,
+        file_path,
+    ):
+
+        location = config(key="location")
+        project_id = config(key="project-id")
+        processor_id = config(key="processor-id")
 
         # NOTE: DocumentProcessor depends on a file path currently on 119
         document = self.online_process(file_path, project_id, processor_id, location)
         tables = self.proccess_table(document)
-        df = tables[0] # The 0th table is the front page of a standard ORS document
+        df = tables[0]  # The 0th table is the front page of a standard ORS document
         columns = self.process_columns(df)
         measurements = self.process_measurements(df, columns)
 
