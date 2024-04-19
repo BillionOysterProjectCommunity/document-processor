@@ -19,6 +19,9 @@ def create_app():
 
     if app.config["SETTINGS"].read("debug") == True:
         app.config["SETTINGS"].set("redirect-uri", "https://127.0.0.1:8080/callback")
+    else:
+        app.config["SETTINGS"].set("redirect-uri", "https://bopdata.duckdns.org/callback")
+
 
     from theia.web.views.auth import a  # auth
     from theia.web.views.dashboard import dash  # dashbboard

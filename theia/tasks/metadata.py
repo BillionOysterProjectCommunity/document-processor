@@ -29,9 +29,9 @@ class MetadataPipeline(PipelineJob):
 
         df = pd.DataFrame(
             {
-                BROODSTOCK: b[0],
-                DISTRIBUTION_DATE: b[1],
-                SET_DATE: b[1],
+                BROODSTOCK: b.broodstock,
+                DISTRIBUTION_DATE: b.distribution,
+                SET_DATE: b.distribution,
                 TAG_NUMBER: self.form.tag_number.data,
                 MONITORING_DATE: self.form.monitoring_date.data,
                 ORGANIZATION: self.form.organization.data,
@@ -44,21 +44,31 @@ class MetadataPipeline(PipelineJob):
 
         return PipelineResult(self.NAME, df)
 
+class Broodstock:
+    def __init__(self, broodstock, distribution):
+        self.broodstock = broodstock
+        self.distribution = distribution
 
 def broodstock(tag_number):
     p = pkg_dir() + "/" + "tasks" "/" + "broodstock.csv"
     df = pd.read_csv(p)
 
+    bd = Broodstock("None", "None")
+
     # attempt to extract cage id
 
-    try:
-        df = df[df["tag_number"] == tag_number]
+    df = df[df["tag_number"] == tag_number]
 
-        installation = ["d", "c", "b", "a"]
-        for i in range(len(installation)):
+    installation = ["d", "c", "b", "a"]
+    for i in range(len(installation)):
+        try: 
             b = df[f"broodstock_{installation[i]}"].values[0]
             d = df[f"distribution_{installation[i]}"].values[0]
-            if type(b) == str:  # return the most recent broostock install (not NaN)
-                return [b, d]
-    except IndexError:  # No suitable broodstock found
-        return ["None", "None"]
+            if type(b) == str and not "None":  # return the most recent broostock install (not NaN)
+                bd.broodstock = b
+                bd.distribution = d
+                return bd
+        except IndexError:
+            pass
+    return bd
+
