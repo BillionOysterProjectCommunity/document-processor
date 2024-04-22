@@ -74,6 +74,9 @@ def index():
 
     return render_template("index.html")
 
+@a.route("/start",  methods=("GET", "POST"))
+def start():
+    return render_template('start.html')
 
 @a.route("/logout")
 def logout():

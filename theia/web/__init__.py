@@ -27,10 +27,12 @@ def create_app():
     from theia.web.views.dashboard import dash  # dashbboard
     from theia.web.views.form import entry  # forms
     from theia.web.views.admin import admin as ad
+    from theia.web.views.terms import t as terms
 
     app.register_blueprint(a)
     app.register_blueprint(ad)
     app.register_blueprint(dash)
     app.register_blueprint(entry)
+    app.register_blueprint(terms)
 
     return app

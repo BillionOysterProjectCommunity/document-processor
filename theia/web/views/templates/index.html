@@ -3,6 +3,22 @@
 {% block content %}
 
 <div><h2>ORS Data Submission Portal</h2></div>
-<p>Please <a href="{{ url_for("a.login")}}">login</a> to begin data submission.</p>
+
+<div class="margin-bottom-2">
+Welcome to the Billion Oyster Project Data Submission Platform!
+</div>
+
+<div class="margin-bottom-2">
+This platform provides a quick way to go through the data submission pipeline in only one form.
+By utilizing computer vision, measurement data can be automatically extracted. In additon,
+many other automations have been put in place to cross reference up-to-date broodstock measurement
+data and site locations. Enjoy!
+</div>
+
+<a href="{{ url_for("a.start")}}">
+    <button type="button" class="usa-button">Get Started</button>
+</a>
+
+<div></div>
 
 {% endblock %}
