@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: theia
-          image: us-east1-docker.pkg.dev/ors-document-analysis/billionoysterproject/theia:prod
+          image: us-east1-docker.pkg.dev/ors-document-analysis/billionoysterproject/theia:prod-latestv2
           ports:
             - containerPort: 8080
