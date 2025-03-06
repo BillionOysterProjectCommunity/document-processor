@@ -18,7 +18,7 @@ def create_app():
     app.secret_key = app.config["SETTINGS"].read("flask-secret-key")
 
     if app.config["SETTINGS"].read("debug") == True:
-        app.config["SETTINGS"].set("redirect-uri", "https://127.0.0.1:8080/callback")
+        app.config["SETTINGS"].set("redirect-uri", "http://127.0.0.1:8080/callback")
     else:
         app.config["SETTINGS"].set("redirect-uri", "https://bopdata.duckdns.org/callback")
 

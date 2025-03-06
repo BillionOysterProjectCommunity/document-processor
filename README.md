@@ -15,6 +15,13 @@ python3.11 -m venv .
 pip install -r requirements.txt
 
 pip install -e ./
+
+
+---
+
+# Create an uploads folder
+mkdir theia/web/uplods
+# insert the iam json file into theia/
 ```
 
 **Google Cloud**
@@ -51,10 +58,14 @@ debug = false/true
 
 This project uses <a href="https://buildpacks.io/">Cloud Native Buildpack</a> to build images. To build an image use the <a href="https://github.com/buildpacks/pack">pack</a> CLI tool.
 ```bash
-pack build theia --path . --builder gcr.io/buildpacks/builder:v1
+# gunicorn.conf.py depends on the debug state in config.toml
+
+docker build . -t us-east1-docker.pkg.dev/ors-document-analysis/billionoysterproject/theia:prod
 
 # Then, run the buildpack.
 # Make sure to open 127.0.0.1 in the browser when developing locally
 
-docker run --rm -p 127.0.0.1:8080:8080 theia
+docker run --rm -p 127.0.0.1:8080:8080 theia:prod
+
+docker push us-east1-docker.pkg.dev/ors-document-analysis/billionoysterproject/theia:prod
 ```

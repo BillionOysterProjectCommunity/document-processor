@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: theia-deploy
+  name: theia-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: theia-deploy
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: theia-deploy
+    spec:
+      containers:
+        - name: theia
+          image: us-east1-docker.pkg.dev/ors-document-analysis/billionoysterproject/theia:prod
+          ports:
+            - containerPort: 8080
